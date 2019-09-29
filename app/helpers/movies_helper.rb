@@ -3,6 +3,7 @@ module MoviesHelper
   def oddness(count)
     count.odd? ?  "odd" :  "even"
   end
+  
   def sortable(column, title = nil)
     title ||= column.titleize
     css_id = column == "title" ? "title_header":"release_date_header"

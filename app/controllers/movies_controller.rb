@@ -1,4 +1,4 @@
-rvmclass MoviesController < ApplicationController
+class MoviesController < ApplicationController
 
   def movie_params
     params.require(:movie).permit(:title, :rating, :description, :release_date)
@@ -54,4 +54,4 @@ rvmclass MoviesController < ApplicationController
     redirect_to movies_path
   end
 
-
+end
