@@ -16,8 +16,10 @@ class MoviesController < ApplicationController
     
     if params[:ratings]
       @ratings_filter = params[:ratings].keys
+    else
+        @ratings_filter = @all_ratings
     end
-
+    
     @movies = @movies.where('rating in (?)', @ratings_filter)
     
     if params[:sort_by]
