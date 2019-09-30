@@ -11,19 +11,43 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.order(sort_column + " " + sort_direction)
-  end
-  
-  def sortable_columns
-    ["title", "release_date"]
-  end
-
-  def sort_column
-    sortable_columns.include?(params[:sort]) ? params[:sort] : "title"
-  end
-
-  def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    @movies = Movie.all
+    @all_ratings = Movie.all_ratings
+    
+    if params[:ratings]
+      @ratings_filter = params[:ratings].keys
+    else
+      if session[:ratings]
+        @ratings_filter = session[:ratings]
+      else
+        @ratings_filter = @all_ratings
+      end
+    end
+    
+    if @ratings_filter!=session[:ratings]
+      session[:ratings] = @ratings_filter
+    end
+    
+    @movies = @movies.where('rating in (?)', @ratings_filter)
+    
+    if params[:sort_by]
+      @sorting = params[:sort_by]
+    else
+      @sorting = session[:sort_by]
+    end
+    
+    if @sorting!=session[:sort_by]
+      session[:sort_by] = @sorting
+    end
+    
+    if @sorting == 'title'
+          @movies = @movies.order(@sorting)
+          @title_sort = 'hilite'
+    elsif @sorting == 'release_date'
+          @movies = @movies.order(@sorting)
+          @release_sort = 'hilite'
+    end
+    
   end
 
   def new
