@@ -10,7 +10,7 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
   
-  # Adding code here
+  # Adding code here - Chandan Acharya
   def index
     @movies = Movie.all
     @all_ratings = Movie.all_ratings
